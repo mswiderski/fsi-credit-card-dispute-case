@@ -16,6 +16,11 @@
             <identifier>new org.jbpm.document.marshalling.DocumentMarshallingStrategy();</identifier>
             <parameters/>
         </marshalling-strategy>
+        <marshalling-strategy>
+            <resolver>mvel</resolver>
+            <identifier>new org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy("com.redhat.fsi:CreditCardDisputeCase:1.0.0", classLoader)</identifier>
+            <parameters/>
+        </marshalling-strategy>
     </marshalling-strategies>
     <event-listeners/>
     <task-event-listeners/>
@@ -23,9 +28,21 @@
     <work-item-handlers>
         <work-item-handler>
             <resolver>mvel</resolver>
-            <identifier>new org.jbpm.casemgmt.impl.wih.StartCaseWorkItemHandler(ksession);</identifier>
+            <identifier>new org.jbpm.process.workitem.bpmn2.ServiceTaskHandler(ksession, classLoader)</identifier>
             <parameters/>
-            <name>StartCaseInstance</name>
+            <name>Service Task</name>
+        </work-item-handler>
+        <work-item-handler>
+            <resolver>mvel</resolver>
+            <identifier>new org.jbpm.process.instance.impl.demo.SystemOutWorkItemHandler()</identifier>
+            <parameters/>
+            <name>Email</name>
+        </work-item-handler>
+        <work-item-handler>
+            <resolver>mvel</resolver>
+            <identifier>new org.jbpm.process.workitem.bpmn2.BusinessRuleTaskHandler("com.redhat.fsi","credit-dispute-case","1.0.0")</identifier>
+            <parameters/>
+            <name>DecisionTask</name>
         </work-item-handler>
     </work-item-handlers>
     <environment-entries/>

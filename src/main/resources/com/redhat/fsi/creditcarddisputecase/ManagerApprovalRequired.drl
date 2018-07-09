@@ -1,0 +1,21 @@
+package com.redhat.fsi.creditcarddisputecase;
+import org.jbpm.casemgmt.api.model.instance.*;
+import java.util.HashMap;
+import java.util.Map;
+
+rule "Manager Approval Required"
+ruleflow-group "manager-approval-check"
+dialect "mvel"
+when
+    //$caseData : CaseFileInstance()
+    FraudData(totalFraudAmount > 1000)// from $caseData.getData("fraudData")
+    managerApprovalRequired: Boolean()
+then
+    System.out.println("In the then section of the rules");
+    managerApprovalRequired = true;
+    //Map<String, Object> params = new HashMap<String, Object>();
+    //params.put("caseFile_managerApprovalRequired", true);
+    //$caseData.addAll(params);
+end
+
+    
