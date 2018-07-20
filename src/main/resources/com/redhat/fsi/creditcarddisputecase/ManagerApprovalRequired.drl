@@ -26,6 +26,7 @@ then
     FraudData fraudData = new FraudData();
     fraudData.setTotalFraudAmount(((Number)$caseData.getData("totalFraudAmount")).floatValue());
     fraudData.setCustomerStatus((String) $caseData.getData("customerStatus"));
+    fraudData.setCaseId($caseData.getCaseId());
     $caseData.add("fraudData", fraudData);
     update($caseData);
 end    
