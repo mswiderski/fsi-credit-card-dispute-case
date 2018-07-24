@@ -3,6 +3,7 @@
     <persistence-unit name="com.redhat.fsi:CreditCardDisputeCase:1.0.0" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <class>com.redhat.fsi.creditcarddisputecase.FraudData</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>

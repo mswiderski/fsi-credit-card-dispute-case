@@ -1,0 +1,33 @@
+package com.redhat.fsi.creditcarddisputecase;
+
+rule "Associate fraud data with case"
+ruleflow-group "InitializeCaseObjects"
+when
+    $caseData : CaseFileInstance(data.get("fraudData") == null)
+then
+    System.out.println("Associating froud data with case " + $caseData.getCaseId());
+
+    FraudData fraudData = new FraudData();
+    fraudData.setTotalFraudAmount(((Number) $caseData.getData("totalFraudAmount")).floatValue());
+    fraudData.setCustomerStatus((String) $caseData.getData("customerStatus"));
+    fraudData.setCaseId($caseData.getCaseId());
+    $caseData.add("fraudData", fraudData);
+    update($caseData);
+end
+
+rule "Associate cardholder data with case"
+ruleflow-group "InitializeCaseObjects"
+when
+    $caseData : CaseFileInstance(data.get("cardholder") == null)
+then
+    System.out.println("Associating cardholder data with case " + $caseData.getCaseId());
+    Cardholder cardholder = new Cardholder();
+    cardholder.setAge((Integer) $caseData.getData("customerAge"));
+    cardholder.setStatus((String) $caseData.getData("customerStatus"));
+    cardholder.setIncidentCount((Integer) $caseData.getData("incidentCount"));
+    cardholder.setRiskRating(0);
+    $caseData.add("cardholder", cardholder);
+
+    update($caseData);
+end
+

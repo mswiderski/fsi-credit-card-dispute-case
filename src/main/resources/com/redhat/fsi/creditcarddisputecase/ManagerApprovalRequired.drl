@@ -3,19 +3,13 @@ import org.jbpm.casemgmt.api.model.instance.*;
 import java.util.HashMap;
 import java.util.Map;
 
-rule "Manager Approval Required"
-ruleflow-group "manager-approval-check"
-dialect "mvel"
+rule "Manager Approval Required" ruleflow-group "manager-approval-check"
+
 when
-    //$caseData : CaseFileInstance()
-    FraudData(totalFraudAmount > 1000)// from $caseData.getData("fraudData")
-    managerApprovalRequired: Boolean()
+    $caseData : CaseFileInstance(data.get("managerApprovalRequired") == null)
+    FraudData(totalFraudAmount > 1000) from $caseData.getData("fraudData")
+    
 then
     System.out.println("In the then section of the rules");
-    managerApprovalRequired = true;
-    //Map<String, Object> params = new HashMap<String, Object>();
-    //params.put("caseFile_managerApprovalRequired", true);
-    //$caseData.addAll(params);
+    $caseData.add("managerApprovalRequired", true);
 end
-
-    
