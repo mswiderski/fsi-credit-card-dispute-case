@@ -13,20 +13,3 @@ then
     System.out.println("In the then section of the rules");
     $caseData.add("managerApprovalRequired", true);
 end
-    
-    
-rule "Associate fraud data with case"
-
-when
-    $caseData : CaseFileInstance(data.get("fraudData") == null)
-    
-then
-    System.out.println("Associating froud data with case " + $caseData.getCaseId());
-
-    FraudData fraudData = new FraudData();
-    fraudData.setTotalFraudAmount(((Number)$caseData.getData("totalFraudAmount")).floatValue());
-    fraudData.setCustomerStatus((String) $caseData.getData("customerStatus"));
-    fraudData.setCaseId($caseData.getCaseId());
-    $caseData.add("fraudData", fraudData);
-    update($caseData);
-end    
